@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YanYuanFE/react-native-signature-canvas.git"
+    "url": "git+https://github.com/soul2eat/react-native-signature-canvas.git"
   },
   "keywords": [
     "react-native",
@@ -18,14 +18,15 @@
     "signature",
     "pad",
     "canvas",
-    "expo"
+    "expo",
+    "promise"
   ],
-  "author": "YanYuanFE",
+  "author": "YanYuanFE, Soul2Eat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/YanYuanFE/react-native-signature-canvas/issues"
+    "url": "https://github.com/soul2eat/react-native-signature-canvas/issues"
   },
-  "homepage": "https://github.com/YanYuanFE/react-native-signature-canvas#readme",
+  "homepage": "https://github.com/soul2eat/react-native-signature-canvas#readme",
   "dependencies": {
     "react-native-webview": "^6.9.0"
   }
