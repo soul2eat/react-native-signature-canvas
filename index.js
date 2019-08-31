@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
-
+const actions = {isEmpty:[], getImage: [], clear: []};
+const isEmptyInj = 
 class SignatureView extends Component {
   static defaultProps = {
     webStyle: '',
@@ -41,15 +42,22 @@ class SignatureView extends Component {
 
     this.source = { html };
   };
+  webview = null;
 
-  getSignature = e => {
-    const { onOK, onEmpty } = this.props;
-    if (e.nativeEvent.data === "EMPTY") {
-      onEmpty();
-    } else {
-      onOK(e.nativeEvent.data);
+  async emit(ev){
+    if(ev === 'clear'){
+      this.webview.injectJavaScript(`contextEv(${ev})`)
+      return true;
     }
-  };
+
+    if(actions[ev]){
+      const p =  new Promise(res=>{
+        actions[ev].push(res);
+        this.webview.injectJavaScript(`contextEv(${ev})`);
+      })
+      return p;
+    }
+  }
 
   _renderError = args => {
     console.log("error", args);
@@ -59,9 +67,10 @@ class SignatureView extends Component {
     return (
       <View style={styles.webBg}>
         <WebView
+          ref={ref => (this.webview = ref)}
           useWebKit={true}
           source={this.source}
-          onMessage={this.getSignature}
+          onMessage={handler}
           javaScriptEnabled={true}
           onError={this._renderError}
         />
@@ -69,5 +78,10 @@ class SignatureView extends Component {
     );
   }
 }
-
+function handler(e){
+  const data = JSON.parse(e.nativeEvent.data);
+  const [p] = actions[data.action].splice(0, 1);
+  if(p)
+    p(data.value);
+}
 export default SignatureView;
